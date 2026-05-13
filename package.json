@@ -1,0 +1,24 @@
+{
+  "name": "pi-browser-tools",
+  "version": "0.1.0",
+  "description": "Browser automation tools for pi agents using Chrome DevTools Protocol, with optional BrowserCode support.",
+  "type": "module",
+  "keywords": [
+    "pi-package",
+    "pi-extension",
+    "browser",
+    "cdp",
+    "chrome",
+    "browsercode"
+  ],
+  "license": "MIT",
+  "pi": {
+    "extensions": [
+      "./extensions"
+    ]
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*",
+    "typebox": "*"
+  }
+}

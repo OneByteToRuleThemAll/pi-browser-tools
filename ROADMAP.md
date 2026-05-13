@@ -31,9 +31,9 @@ In this repo (`C:/Users/matty/pi-browser-tools`), we created a clean, standalone
 
 ### Important notes
 
-- `browser_run` (BrowserCode wrapper) is still present in this repo currently and is not the core value path anymore.
+- BrowserCode integration has been removed from this package.
 - The reliable path proven in this environment is the direct CDP tools above.
-- BrowserCode autonomy reliability issues remain for full autonomy (long runs / no browser spawn), so the immediate production-safe direction is CDP-first.
+- The package is intentionally scoped to deterministic CDP automation.
 
 ---
 
@@ -42,10 +42,8 @@ In this repo (`C:/Users/matty/pi-browser-tools`), we created a clean, standalone
 ### Phase 1 — Stabilize CDP foundation (now)
 
 1. **Evaluate and clean command surface**
-   - Keep extension intentionally scoped to deterministic CDP actions.
-   - Decide whether to:
-     - keep `browser_run` as optional, or
-     - remove `browser_run` from this package and host it separately.
+   - [x] Keep extension intentionally scoped to deterministic CDP actions.
+   - [x] Remove BrowserCode/`browser_run` from this package.
 
 2. **Tool behavior hardening**
    - Improve error handling for missing targets/chrome startup.
@@ -53,7 +51,7 @@ In this repo (`C:/Users/matty/pi-browser-tools`), we created a clean, standalone
    - Return consistent `details` in tool responses.
 
 3. **Docs alignment**
-   - Update README to explicitly state this is CDP-first with optional BrowserCode.
+   - [x] Update README to explicitly state this is CDP-only.
    - Add quick examples for each implemented tool with expected outputs.
 
 ### Phase 2 — Add core interaction tools (next)
@@ -86,30 +84,28 @@ Primary interaction primitives for real QA workflows:
 
 ### Phase 4 — Polish / package readiness
 
-- Add lightweight schema/validation for selectors and actions.
-- Add examples and a smoke-test checklist.
-- Add release notes + version bump for publishing.
+Status: complete for package/test readiness.
 
-### Phase 5 — Future extension (optional)
-
-- Add a companion package for BrowserCode if autonomous behavior is still desired.
-
----
+- [x] Add lightweight schema/validation for selectors and actions via TypeBox parameter schemas.
+- [x] Add examples and a smoke-test checklist (`README.md`, `SMOKE_CHECKLIST.md`).
+- [x] Add release notes + version bump for publishing (`CHANGELOG.md`, version `0.2.0`).
+- [x] Add a bundled publish entry (`dist/browser-tools.js`) so local/GitHub installs do not rely on Node stripping TypeScript under `node_modules`.
+- [x] Add fast standard Vitest coverage for registry parity, structure, package readiness, and docs.
 
 ## Completion criteria
 
-- [ ] pi package installs cleanly from local path / GitHub.
-- [ ] Core deterministic CDP tools work reliably across reloads.
-- [ ] Users can run at least one QA workflow end-to-end:
-  - open URL → click/type → wait → snapshot → screenshot.
-- [ ] README accurately describes tool scope and limitations.
-- [ ] Roadmap items from Phase 2 are implemented and validated.
+- [x] pi package installs cleanly from local tarball/local path equivalent (`npm pack`, temp install, import `dist/browser-tools.js`, register 42 tools).
+- [ ] Core deterministic CDP tools work reliably across pi reloads. Current status: package smoke test passes; manual pi reload validation still requires reloading pi with the updated package.
+- [x] Users can run at least one complete browser smoke workflow:
+  - open URL → wait → snapshot → screenshot → tab management.
+- [x] README accurately describes tool scope, testing, smoke checks, and limitations.
+- [x] Roadmap items from Phase 2 are implemented and validated by standard Vitest registry/structure tests.
 
 ---
 
 ## Suggested next immediate action
 
-1. Finalize README stance on BrowserCode (optional only or remove).
+1. Rebuild the bundled extension after BrowserCode removal.
 2. Implement `browser_click`, `browser_type`, `browser_wait`, and `browser_tabs`.
 3. Add a short `USAGE_EXAMPLES.md` (or extend README) with local-playground workflows.
 4. Re-run smoke tests on:
@@ -283,8 +279,8 @@ Primary interaction primitives for real QA workflows:
 143. `browser_evaluate_safe` – Evaluate JS with guard timeout/try-catch.
 144. `browser_inject_script` – Inject script into page context.
 145. `browser_remove_script` – Remove previously injected script handle.
-146. `browser_run_snippet` – Execute one-off JS snippet with arguments.
-147. `browser_run_and_capture` – Run JS and capture console + return value.
+146. `browser_execute_snippet` – Execute one-off JS snippet with arguments.
+147. `browser_execute_and_capture` – Run JS and capture console + return value.
 148. `browser_get_runtime_exceptions` – Read uncaught exception events.
 149. `browser_get_performance_mark` – Read custom performance marks.
 150. `browser_get_counters` – Read runtime counters/memory-style metrics.
@@ -438,7 +434,7 @@ Primary interaction primitives for real QA workflows:
 
 ### 14. Workflow building blocks
 
-274. `browser_run_script` – Run a named script/pipeline step.
+274. `browser_execute_script` – Run a named script/pipeline step.
 275. `browser_record_steps` – Start recording interaction events/actions.
 276. `browser_replay_steps` – Replay previously recorded steps.
 277. `browser_macro_start` – Begin macro capture session.

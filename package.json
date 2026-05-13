@@ -1,24 +1,46 @@
 {
   "name": "pi-browser-tools",
-  "version": "0.1.0",
-  "description": "Browser automation tools for pi agents using Chrome DevTools Protocol, with optional BrowserCode support.",
+  "version": "0.2.0",
+  "description": "Browser automation tools for pi agents using Chrome DevTools Protocol.",
   "type": "module",
   "keywords": [
     "pi-package",
     "pi-extension",
     "browser",
     "cdp",
-    "chrome",
-    "browsercode"
+    "chrome"
   ],
   "license": "MIT",
+  "files": [
+    "dist",
+    "extensions",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "REPO_STRUCTURE.md",
+    "ROADMAP.md",
+    "SMOKE_CHECKLIST.md"
+  ],
   "pi": {
     "extensions": [
-      "./extensions"
+      "./dist/browser-tools.js"
     ]
   },
   "peerDependencies": {
-    "@earendil-works/pi-coding-agent": "*",
-    "typebox": "*"
+    "@earendil-works/pi-coding-agent": "*"
+  },
+  "dependencies": {
+    "typebox": "^1.1.38"
+  },
+  "scripts": {
+    "build": "esbuild extensions/browser-tools.ts --bundle --platform=node --format=esm --packages=external --outfile=dist/browser-tools.js",
+    "prepack": "npm run build",
+    "test": "vitest run tests/browser-tools.test.mjs tests/browser-tools.registry.test.ts tests/browser-tools.structure.test.ts tests/package-readiness.test.ts",
+    "test:smoke": "vitest run tests/browser-tools.smoke.test.ts",
+    "test:all": "vitest run"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.0",
+    "vitest": "^3.1.0"
   }
 }
